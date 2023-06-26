@@ -146,7 +146,8 @@ class Polyedr:
                     # коэффициент гомотетии
                     self.c = float(buf.pop(0))
                     # углы Эйлера, определяющие вращение
-                    self.alpha, self.beta, self.gamma = (float(x) * pi / 180.0 for x in buf)
+                    self.alpha, self.beta, self.gamma = (
+                        (float(x) * pi / 180.0 for x in buf))
                 elif i == 1:
                     # во второй строке число вершин, граней и рёбер полиэдра
                     nv, nf, ne = (int(x) for x in line.split())
@@ -194,9 +195,6 @@ class Polyedr:
             for f in self.facets:
                 e.shadow(f)
             for s in e.gaps:
-                # x = e.r3(s.beg).rz(-self.gamma).ry(-self.beta).rz(-self.alpha) 
-                # y = e.r3(s.fin).rz(-self.gamma).ry(-self.beta).rz(-self.alpha) 
-                # tk.draw_line(x, y)
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin))
 
         print('Искомая сумма:', self.get_edge_sum())
