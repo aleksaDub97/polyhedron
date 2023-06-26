@@ -80,9 +80,10 @@ class Edge:
         x = - f0 / (f1 - f0)
         return Segment(Edge.SBEG, x) if f0 < 0.0 else Segment(x, Edge.SFIN)
 
-    def is_good(self, k=1):
+    def is_good(self, alpha, beta, gamma, k=1):
         c = (self.beg + self.fin) * (1/2)
-        return abs(c.x/k) < 1 and abs(c.y/k) < 1 and abs(c.z/k) < 1
+        c = c.rz(-gamma).ry(-beta).rz(-alpha) * (1/k)
+        return abs(c.x) < 1 and abs(c.y) < 1 and abs(c.z) < 1
 
     def length_of_proj(self, k=1):
         return sqrt((self.fin.x - self.beg.x)**2 +
@@ -145,7 +146,7 @@ class Polyedr:
                     # коэффициент гомотетии
                     self.c = float(buf.pop(0))
                     # углы Эйлера, определяющие вращение
-                    alpha, beta, gamma = (float(x) * pi / 180.0 for x in buf)
+                    self.alpha, self.beta, self.gamma = (float(x) * pi / 180.0 for x in buf)
                 elif i == 1:
                     # во второй строке число вершин, граней и рёбер полиэдра
                     nv, nf, ne = (int(x) for x in line.split())
@@ -153,7 +154,7 @@ class Polyedr:
                     # задание всех вершин полиэдра
                     x, y, z = (float(x) for x in line.split())
                     self.vertexes.append(R3(x, y, z).rz(
-                        alpha).ry(beta).rz(gamma) * self.c)
+                        self.alpha).ry(self.beta).rz(self.gamma) * self.c)
                 else:
                     # вспомогательный массив
                     buf = line.split()
@@ -179,22 +180,23 @@ class Polyedr:
         edge_sum = 0
         self.edges_uniq()
         for e in self.edges:
-            edge_sum += e.length_of_proj(self.c) if e.is_good(self.c) else 0
+
+            edge_sum += e.length_of_proj(self.c) if \
+                e.is_good(self.alpha, self.beta, self.gamma, self.c) else 0
         return edge_sum
 
     # Метод изображения полиэдра
     def draw(self, tk):
         tk.clean()
 
-        edge_sum = 0
-
         self.edges_uniq()
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
             for s in e.gaps:
+                # x = e.r3(s.beg).rz(-self.gamma).ry(-self.beta).rz(-self.alpha) 
+                # y = e.r3(s.fin).rz(-self.gamma).ry(-self.beta).rz(-self.alpha) 
+                # tk.draw_line(x, y)
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin))
 
-            edge_sum += e.length_of_proj(self.c) if e.is_good(self.c) else 0
-
-        print('Искомая сумма:', edge_sum)
+        print('Искомая сумма:', self.get_edge_sum())
