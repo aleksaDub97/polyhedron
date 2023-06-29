@@ -107,23 +107,23 @@ class TestEdge:
 
     def test_is_good_1(self):
         e = Edge(R3(0, 0, 0), R3(0.5, 0.5, 0.5))
-        assert e.is_good() is True
+        assert e.is_good(alpha=0, beta=0, gamma=0) is True
 
     def test_is_good_2(self):
         e = Edge(R3(0, 0, 0), R3(1, 1, 0))
-        assert e.is_good() is True
+        assert e.is_good(alpha=0, beta=0, gamma=0) is True
 
     def test_is_good_3(self):
         e = Edge(R3(0, 0, 0), R3(2, 0, 0))
-        assert e.is_good() is False
+        assert e.is_good(alpha=0, beta=0, gamma=0) is False
 
     def test_is_good_4(self):
         e = Edge(R3(-2, 0, 0), R3(2, 0, 0))
-        assert e.is_good() is True
+        assert e.is_good(alpha=0, beta=0, gamma=0) is True
 
     def test_is_good_5(self):
         e = Edge(R3(0, 0, 0), R3(1, 0, 10))
-        assert e.is_good() is False
+        assert e.is_good(alpha=0, beta=0, gamma=0) is False
 
     def test_length_1(self):
         e = Edge(R3(0, 0, 0), R3(1, 0, 0))
