@@ -137,8 +137,4 @@ class TestEdge:
         e = Edge(R3(0, 0, 0), R3(1, 1, 1))
         assert e.length_of_proj() == approx(sqrt(2))
 
-    # def test_length_4(self):
-    #     e = Edge(R3(0, 0, 0), R3(1, 0, 0))
-    #     return e.length_of_proj() == approx(1)
-
     # python3 -B -m pytest -p no:cacheprovider tests/test_edge.py
