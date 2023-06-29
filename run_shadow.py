@@ -11,9 +11,9 @@ try:
         print("=============================================================")
         print(f"Начало работы с полиэдром '{name}'")
         start_time = time()
-        Polyedr(f"polyhedron_91/data/{name}.geom").draw(tk)
+        Polyedr(f"data/{name}.geom").draw(tk)
         delta_time = time() - start_time
-        p = Polyedr(f"polyhedron_91/data/{name}.geom")
+        p = Polyedr(f"data/{name}.geom")
         print(f"Изображение полиэдра '{name}' заняло {delta_time} сек.")
         print("сумма длин проекций ребер, середины которых "
               "являются хорошими точками ->", p.get_edge_sum())
