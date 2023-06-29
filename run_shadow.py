@@ -15,8 +15,8 @@ try:
         delta_time = time() - start_time
         p = Polyedr(f"polyhedron_91/data/{name}.geom")
         print(f"Изображение полиэдра '{name}' заняло {delta_time} сек.")
-        print("сумма длин проекций ребер, середины которых являются хорошими точками ->", \
-              p.get_edge_sum())
+        print("сумма длин проекций ребер, середины которых "
+              "являются хорошими точками ->", p.get_edge_sum())
         input("Hit 'Return' to continue -> ")
 except (EOFError, KeyboardInterrupt):
     print("\nStop")
