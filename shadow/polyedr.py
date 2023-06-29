@@ -80,7 +80,7 @@ class Edge:
         x = - f0 / (f1 - f0)
         return Segment(Edge.SBEG, x) if f0 < 0.0 else Segment(x, Edge.SFIN)
 
-    def is_good(self, alpha=0, beta=0, gamma=0, k=1):
+    def is_good(self, alpha, beta, gamma, k=1):
         c = (self.beg + self.fin) * (1/2)
         c = c.rz(-gamma).ry(-beta).rz(-alpha) * (1/k)
         return abs(c.x) < 1 and abs(c.y) < 1 and abs(c.z) < 1
@@ -181,7 +181,6 @@ class Polyedr:
         edge_sum = 0
         self.edges_uniq()
         for e in self.edges:
-
             edge_sum += e.length_of_proj(self.c) if \
                 e.is_good(self.alpha, self.beta, self.gamma, self.c) else 0
         return edge_sum
